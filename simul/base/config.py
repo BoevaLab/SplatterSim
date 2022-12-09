@@ -62,7 +62,11 @@ class SimCellConfig:
         self.dropout_shape = dropout_shape
 
     def to_dict(self):
-        return vars(self)
+        dict = vars(self).copy()
+        for k, v in dict.items():
+            if type(v) == np.ndarray:
+                dict[k] = dict[k].tolist()
+        return dict
 
     def create_rng(self):
         return np.random.default_rng(self.random_seed)
